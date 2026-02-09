@@ -1,0 +1,54 @@
+syntax = "proto3";
+package todoapp;
+option go_package = "github.com/noolingo/proto/codegen/go/todoapp";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+// import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "common/common.proto";
+
+service AuthService{
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc ValidateToken(TokenRequest) returns (ValidateResponse);
+}
+
+message User{
+    string id =1;
+    string username =2;
+    string email = 3;
+    google.protobuf.Timestamp created_at = 4;
+}
+
+message RegisterRequest{
+    string username =1;
+    string email =2;
+    string password =3;
+}
+
+message RegisterResponse{
+    User user =1;
+    string acces_token =2;
+}
+
+message LoginRequest{
+    string email =1;
+    string password =2;
+}
+
+message LoginResponse{
+    string acces_token =1;
+    string refresh_token =2; //хз
+}
+
+message TokenRequest{
+    string token =1;
+}
+
+message ValidateResponse{
+    bool valid =1;
+    string user_id =2;
+    string error =3;
+}
+
